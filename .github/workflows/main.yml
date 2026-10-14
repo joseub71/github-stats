@@ -28,6 +28,8 @@ jobs:
     - name: Build
       run: |
         zig build
+        # Keep the commit-based languages script and template; the next step switches branches
+        cp scripts/commit_languages.py src/templates/languages.svg "$RUNNER_TEMP/"
 
     - name: Checkout history branch
       run: |
@@ -49,6 +51,13 @@ jobs:
         # TODO: Remove this when they get their API working again
         # https://github.com/orgs/community/discussions/192970
         MAX_RETRIES: 5
+
+    - name: Languages by my own commits
+      run: |
+        python3 "$RUNNER_TEMP/commit_languages.py" "$RUNNER_TEMP/languages.svg" languages.svg
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        EXCLUDE_REPOS: ${{ secrets.EXCLUDE_REPOS }}
 
     - name: Commit to the repo
       run: |
