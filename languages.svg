@@ -64,7 +64,7 @@ li {
 }
 
 div.ellipsis {
-  height: 136px;
+  height: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
